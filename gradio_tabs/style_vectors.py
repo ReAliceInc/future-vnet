@@ -341,7 +341,7 @@ def save_style_vectors_by_dirs(model_name: str, audio_dir_str: str):
 
 
 how_to_md = f"""
-Style-Bert-VITS2でこまかくスタイルを指定して音声合成するには、モデルごとにスタイルベクトルのファイル`style_vectors.npy`を作成する必要があります。
+AI音声システム Futures V-netでこまかくスタイルを指定して音声合成するには、モデルごとにスタイルベクトルのファイル`style_vectors.npy`を作成する必要があります。
 
 ただし、学習の過程では自動的に、平均スタイル「{DEFAULT_STYLE}」と、（**Ver 2.5.0以降からは**）音声をサブフォルダに分けていた場合はそのサブフォルダごとのスタイルが保存されています。
 
@@ -411,17 +411,23 @@ https://ja.wikipedia.org/wiki/DBSCAN
 
 def create_style_vectors_app():
     with gr.Blocks(theme=GRADIO_THEME) as app:
+        gr.Markdown(
+    """
+    <p style='font-size: 20px; color: orange;'>⭐️と数字に沿って進みください。</p>
+    """
+    )
+
         with gr.Accordion("使い方", open=False):
             gr.Markdown(how_to_md)
-        model_name = gr.Textbox(placeholder="your_model_name", label="モデル名")
+        model_name = gr.Textbox(placeholder="your_model_name", label="⭐1.モデル名⭐")
         with gr.Tab("方法0: サブフォルダごとにスタイルベクトルを作成"):
             gr.Markdown(method0)
             audio_dir = gr.Textbox(
                 placeholder="path/to/audio_dir",
-                label="音声が入っているフォルダ",
+                label="⭐2.音声が入っているフォルダ⭐",
                 info="音声ファイルをスタイルごとにサブフォルダに分けて保存してください。",
             )
-            method0_btn = gr.Button("スタイルベクトルを作成", variant="primary")
+            method0_btn = gr.Button("⭐3.スタイルベクトルを作成⭐", variant="primary")
             method0_info = gr.Textbox(label="結果")
             method0_btn.click(
                 save_style_vectors_by_dirs,
@@ -436,7 +442,7 @@ def create_style_vectors_app():
                     info="v 1.3以前はt-SNEでしたがUMAPのほうがよい可能性もあります。",
                     value="UMAP",
                 )
-                load_button = gr.Button("スタイルベクトルを読み込む", variant="primary")
+                load_button = gr.Button("⭐2.スタイルベクトルを読み込む⭐", variant="primary")
             output = gr.Plot(label="音声スタイルの可視化")
             load_button.click(
                 load, inputs=[model_name, reduction_method], outputs=[output]
@@ -462,7 +468,7 @@ def create_style_vectors_app():
                         info="分類する（クラスタリング）アルゴリズムを選択します。いろいろ試してみてください。",
                         value="Agglomerative after reduction",
                     )
-                    c_button = gr.Button("スタイル分けを実行")
+                    c_button = gr.Button("⭐3.スタイル分けを実行⭐")
                 with gr.Tab("スタイル分け2: DBSCAN"):
                     gr.Markdown(dbscan_md)
                     eps = gr.Slider(
@@ -480,7 +486,7 @@ def create_style_vectors_app():
                         label="min_samples",
                     )
                     with gr.Row():
-                        dbscan_button = gr.Button("スタイル分けを実行")
+                        dbscan_button = gr.Button("⭐3.スタイル分けを実行⭐")
                         num_styles_result = gr.Textbox(label="スタイル数")
                 gr.Markdown("スタイル分けの結果")
                 gr.Markdown(
@@ -505,7 +511,7 @@ def create_style_vectors_app():
                                 value=5,
                                 label="代表音声の数をいくつ表示するか",
                             )
-                            get_audios_button = gr.Button("代表音声を取得")
+                            get_audios_button = gr.Button("⭐4.代表音声を取得⭐")
                         with gr.Row():
                             audio_list = []
                             for i in range(MAX_AUDIO_NUM):
@@ -536,7 +542,7 @@ def create_style_vectors_app():
                 )
                 with gr.Row():
                     save_button1 = gr.Button(
-                        "スタイルベクトルを保存", variant="primary"
+                        "⭐5.スタイルベクトルを保存⭐", variant="primary"
                     )
                     info2 = gr.Textbox(label="保存結果")
 
@@ -563,7 +569,7 @@ def create_style_vectors_app():
                     )
                 with gr.Row():
                     save_button2 = gr.Button(
-                        "スタイルベクトルを保存", variant="primary"
+                        "⭐3.スタイルベクトルを保存⭐", variant="primary"
                     )
                     info2 = gr.Textbox(label="保存結果")
                     save_button2.click(

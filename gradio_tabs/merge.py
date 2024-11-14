@@ -1017,16 +1017,22 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
         str(f) for f in model_holder.model_files_dict[model_names[initial_id]]
     ]
 
+    gr.Markdown(
+    """
+    <p style='font-size: 20px; color: orange;'>⭐️と数字に沿って進みください。</p>
+    """
+    )
+
     with gr.Blocks(theme=GRADIO_THEME) as app:
         gr.Markdown(
-            "複数のStyle-Bert-VITS2モデルから、声質・話し方・話す速さを取り替えたり混ぜたり引いたりして新しいモデルを作成できます。"
+            "複数のStyle-AI音声システム Futures V-net-VITS2モデルから、声質・話し方・話す速さを取り替えたり混ぜたり引いたりして新しいモデルを作成できます。"
         )
         with gr.Accordion(label="使い方", open=False):
             gr.Markdown(initial_md)
         method = gr.Radio(
-            label="マージ方法",
+            label="⭐1.マージ方法⭐",
             choices=[
-                ("通常マージ", "usual"),
+                ("⭐通常マージ", "usual"),
                 ("差分マージ", "add_diff"),
                 ("加重和", "weighted_sum"),
                 ("ヌルモデルマージ", "add_null"),
@@ -1085,10 +1091,10 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
                     step=0.1,
                     visible=False,
                 )
-            refresh_button = gr.Button("更新", scale=1, visible=True)
+            refresh_button = gr.Button("⭐2.更新⭐", scale=1, visible=True)
         method_desc = gr.Markdown(usual_md)
         with gr.Column(variant="panel"):
-            new_name = gr.Textbox(label="新しいモデル名", placeholder="new_model")
+            new_name = gr.Textbox(label="⭐3.新しいモデル名⭐", placeholder="new_model")
             with gr.Row() as weight_row:
                 voice_slider = gr.Slider(
                     label="声質",
@@ -1127,7 +1133,7 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
             gr.Markdown("## 1. モデルファイル (safetensors) のマージ")
             with gr.Row():
                 model_merge_button = gr.Button(
-                    "モデルファイルのマージ", variant="primary"
+                    "⭐4.モデルファイルのマージ⭐", variant="primary"
                 )
                 info_model_merge = gr.Textbox(label="情報")
         with gr.Column(variant="panel"):
@@ -1149,7 +1155,7 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
                         step=0.1,
                         label="スタイルの強さ",
                     )
-                tts_button = gr.Button("音声合成", variant="primary")
+                tts_button = gr.Button("⭐5.音声合成⭐", variant="primary")
                 tts_info = gr.Textbox(label="情報")
             audio_output = gr.Audio(label="結果")
         with gr.Column(variant="panel"):
@@ -1161,7 +1167,7 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
             with gr.Row():
                 style_count = gr.Number(label="作るスタイルの数", value=1, step=1)
 
-                get_style_btn = gr.Button("各モデルのスタイルを取得", variant="primary")
+                get_style_btn = gr.Button("⭐6.各モデルのスタイルを取得⭐", variant="primary")
             get_style_btn.click(
                 get_triple_styles,
                 inputs=[model_name_a, model_name_b, model_name_c],
@@ -1435,7 +1441,7 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
                 inputs=[style_count],
                 outputs=[style_count],
             )
-            style_merge_btn = gr.Button("スタイルのマージ", variant="primary")
+            style_merge_btn = gr.Button("⭐7.スタイルのマージ⭐", variant="primary")
 
             info_style_merge = gr.Textbox(label="情報")
 

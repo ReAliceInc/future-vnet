@@ -407,6 +407,8 @@ def run_tensorboard(model_name: str):
 
 
 change_log_md = """
+<p style='font-size: 20px; color: orange;'>⭐️と数字に沿って進みください。</p>
+
 **Ver 2.5以降の変更点**
 
 - `raw/`フォルダの中で音声をサブディレクトリに分けて配置することで、自動的にスタイルが作成されるようになりました。詳細は下の「使い方/データの前準備」を参照してください。
@@ -417,7 +419,6 @@ change_log_md = """
 
 how_to_md = """
 ## 使い方
-
 - データを準備して、モデル名を入力して、必要なら設定を調整してから、「自動前処理を実行」ボタンを押してください。進捗状況等はターミナルに表示されます。
 
 - 各ステップごとに実行する場合は「手動前処理」を使ってください（基本的には自動でいいはず）。
@@ -491,7 +492,7 @@ def create_train_app():
             gr.Markdown(how_to_md)
             with gr.Accordion(label="データの前準備", open=False):
                 gr.Markdown(prepare_md)
-        model_name = gr.Textbox(label="モデル名")
+        model_name = gr.Textbox(label="⭐1.モデル名⭐")
         gr.Markdown("### 自動前処理")
         with gr.Row(variant="panel"):
             with gr.Column():
@@ -589,7 +590,7 @@ def create_train_app():
 
             with gr.Column():
                 preprocess_button = gr.Button(
-                    value="自動前処理を実行", variant="primary"
+                    value="⭐2.自動前処理を実行⭐", variant="primary"
                 )
                 info_all = gr.Textbox(label="状況")
         with gr.Accordion(open=False, label="手動前処理"):
@@ -734,7 +735,7 @@ def create_train_app():
                 value=False,
                 visible=False,  # Experimental
             )
-            train_btn = gr.Button(value="学習を開始する", variant="primary")
+            train_btn = gr.Button(value="⭐3.学習を開始する⭐", variant="primary")
             tensorboard_btn = gr.Button(value="Tensorboardを開く")
         gr.Markdown(
             "進捗はターミナルで確認してください。結果は指定したステップごとに随時保存されており、また学習を途中から再開することもできます。学習を終了するには単にターミナルを終了してください。"
